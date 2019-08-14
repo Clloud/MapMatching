@@ -14,27 +14,30 @@ public class OfflineMapMatching {
 
     private final HmmProbabilities hmmProbabilities = new HmmProbabilities();
 
+    private List<GpsMeasurement> gpsMeasurements;
+
     private final static Map<GpsMeasurement, Collection<RoadPosition>> candidateMap =
             new HashMap<>();
 
     private final static Map<Transition<RoadPosition>, Double> routeLengths = new HashMap<>();
 
-    private final static GpsMeasurement gps1 = new GpsMeasurement(seconds(0), 10, 10);
-    private final static GpsMeasurement gps2 = new GpsMeasurement(seconds(1), 30, 20);
-    private final static GpsMeasurement gps3 = new GpsMeasurement(seconds(2), 30, 40);
-    private final static GpsMeasurement gps4 = new GpsMeasurement(seconds(3), 10, 70);
-
-    private final static RoadPosition rp11 = new RoadPosition(1, 1.0 / 5.0, 20.0, 10.0);
-    private final static RoadPosition rp12 = new RoadPosition(2, 1.0 / 5.0, 60.0, 10.0);
-    private final static RoadPosition rp21 = new RoadPosition(1, 2.0 / 5.0, 20.0, 20.0);
-    private final static RoadPosition rp22 = new RoadPosition(2, 2.0 / 5.0, 60.0, 20.0);
-    private final static RoadPosition rp31 = new RoadPosition(1, 5.0 / 6.0, 20.0, 40.0);
-    private final static RoadPosition rp32 = new RoadPosition(3, 1.0 / 4.0, 30.0, 50.0);
-    private final static RoadPosition rp33 = new RoadPosition(2, 5.0 / 6.0, 60.0, 40.0);
-    private final static RoadPosition rp41 = new RoadPosition(4, 2.0 / 3.0, 20.0, 70.0);
-    private final static RoadPosition rp42 = new RoadPosition(5, 2.0 / 3.0, 60.0, 70.0);
-
     public OfflineMapMatching() {
+        GpsMeasurement gps1 = new GpsMeasurement(seconds(0), 10, 10);
+        GpsMeasurement gps2 = new GpsMeasurement(seconds(1), 30, 20);
+        GpsMeasurement gps3 = new GpsMeasurement(seconds(2), 30, 40);
+        GpsMeasurement gps4 = new GpsMeasurement(seconds(3), 10, 70);
+        gpsMeasurements = Arrays.asList(gps1, gps2, gps3, gps4);
+
+        RoadPosition rp11 = new RoadPosition(1, 1.0 / 5.0, 20.0, 10.0);
+        RoadPosition rp12 = new RoadPosition(2, 1.0 / 5.0, 60.0, 10.0);
+        RoadPosition rp21 = new RoadPosition(1, 2.0 / 5.0, 20.0, 20.0);
+        RoadPosition rp22 = new RoadPosition(2, 2.0 / 5.0, 60.0, 20.0);
+        RoadPosition rp31 = new RoadPosition(1, 5.0 / 6.0, 20.0, 40.0);
+        RoadPosition rp32 = new RoadPosition(3, 1.0 / 4.0, 30.0, 50.0);
+        RoadPosition rp33 = new RoadPosition(2, 5.0 / 6.0, 60.0, 40.0);
+        RoadPosition rp41 = new RoadPosition(4, 2.0 / 3.0, 20.0, 70.0);
+        RoadPosition rp42 = new RoadPosition(5, 2.0 / 3.0, 60.0, 70.0);
+
         candidateMap.put(gps1, Arrays.asList(rp11, rp12));
         candidateMap.put(gps2, Arrays.asList(rp21, rp22));
         candidateMap.put(gps3, Arrays.asList(rp31, rp32, rp33));
@@ -123,15 +126,15 @@ public class OfflineMapMatching {
     }
 
     public List<SequenceState<RoadPosition, GpsMeasurement, RoadPath>> testMapMatching() {
-        final List<GpsMeasurement> gpsMeasurements = Arrays.asList(gps1, gps2, gps3, gps4);
-
         ViterbiAlgorithm<RoadPosition, GpsMeasurement, RoadPath> viterbi =
                 new ViterbiAlgorithm<>();
         TimeStep<RoadPosition, GpsMeasurement, RoadPath> prevTimeStep = null;
+
         for (GpsMeasurement gpsMeasurement : gpsMeasurements) {
             final Collection<RoadPosition> candidates = computeCandidates(gpsMeasurement);
             final TimeStep<RoadPosition, GpsMeasurement, RoadPath> timeStep =
                     new TimeStep<>(gpsMeasurement, candidates);
+
             computeEmissionProbabilities(timeStep);
             if (prevTimeStep == null) {
                 viterbi.startWithInitialObservation(timeStep.observation, timeStep.candidates,
