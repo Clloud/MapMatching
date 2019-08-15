@@ -23,6 +23,11 @@
       <artifactId>hmm-lib</artifactId>
       <version>1.1.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>com.github.davidmoten</groupId>
+      <artifactId>rtree</artifactId>
+      <version>0.8.7</version>
+    </dependency>
   </dependencies>
 
   <build>
