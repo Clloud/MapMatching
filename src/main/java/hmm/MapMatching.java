@@ -13,7 +13,6 @@ public class MapMatching {
 //        List<GpsMeasurement> gpsMeasurements = GpsData.getData();
 
         List<RoadEdge> roadEdges = RoadNetwork.getData();
-
         RoadEdgeIndex roadEdgeIndex = new RoadEdgeIndex();
         for (RoadEdge roadEdge : roadEdges) {
             roadEdgeIndex.add(roadEdge);

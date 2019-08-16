@@ -4,10 +4,8 @@ import hmm.types.Edge;
 import hmm.types.Point;
 import hmm.types.RoadEdge;
 import org.junit.Test;
-
-
 import java.util.List;
-
+import static hmm.utils.Helper.computeDistance;
 import static org.junit.Assert.*;
 
 public class GraphTest extends OfflineMapMatching {
