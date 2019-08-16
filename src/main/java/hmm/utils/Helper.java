@@ -39,9 +39,44 @@ public class Helper {
      *  Returns the great circle distance [m] from GPS point p1 to line determined by
      *  GPS point p2 and GPS point p3.
      */
-    public static double computeDistance(Point p1, Point p2, Point p3) {
-        // TODO
-        return 0;
+    public static double computeDistance_round(Point p1, Point p2, Point p3) {
+        double a = computeDistance(p2, p3);
+        double b = computeDistance(p1, p2);
+        double c = computeDistance(p1, p3);
+        double cos_alpha = (a * a + b * b - c * c) / (2 * a * b);
+        double cos_beta = (a * a + c * c - b * b) / (2 * a * c);
+        if (cos_alpha <= 0) {
+            return b;
+        }
+        if (cos_beta <= 0) {
+            return c;
+        }
+        return (Math.sqrt((a + b + c) * (a + b - c) * (a + c - b) * (b + c - a)) / (2 * a));
     }
+
+/*
+    public static double computeDistance_line(Point p1, Point p2, Point p3) {
+        double d_x = p1.latitude;
+        double d_y = p2.longitude;
+        double point1_x = p2.latitude;
+        double point1_y = p2.longitude;
+        double point2_x = p3.latitude;
+        double point2_y = p3.longitude;
+        double cross = (point2_x - point1_x) * (d_x - point1_x) + (point2_y - point1_y) * (d_y - point1_y);
+        double dist2 = Math.pow((point2_x - point1_x), 2) + Math.pow((point2_y - point1_y), 2);
+
+        if (cross <= 0) {
+            return Math.sqrt(Math.pow((d_x - point1_x), 2) + Math.pow((d_y - point1_y), 2));
+        }
+
+        if (cross >= dist2) {
+            return Math.sqrt(Math.pow((d_x - point2_x), 2) + Math.pow((d_y - point2_y), 2));
+        }
+        double r = cross / dist2;
+        double p_x = point1_x + (point2_x - point1_x) * r;
+        double p_y = point1_y + (point2_y - point1_y) * r;
+        return Math.sqrt(Math.pow((d_x - p_x), 2) + Math.pow((d_y - p_y), 2));
+    }
+ */
 
 }
