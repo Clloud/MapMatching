@@ -1,10 +1,7 @@
 package hmm;
 
 import com.bmw.hmm.SequenceState;
-import hmm.types.GpsMeasurement;
-import hmm.types.RoadEdge;
-import hmm.types.RoadPath;
-import hmm.types.RoadPosition;
+import hmm.types.*;
 import hmm.utils.GpsData;
 import hmm.utils.OfflineMapMatching;
 import hmm.utils.RoadNetwork;
@@ -16,7 +13,15 @@ public class MapMatching {
 //        List<GpsMeasurement> gpsMeasurements = GpsData.getData();
 
         List<RoadEdge> roadEdges = RoadNetwork.getData();
-        OfflineMapMatching offlineMapMatching = new OfflineMapMatching();
+
+        RoadEdgeIndex roadEdgeIndex = new RoadEdgeIndex();
+        for (RoadEdge roadEdge : roadEdges) {
+            roadEdgeIndex.add(roadEdge);
+        }
+        roadEdgeIndex.tree.visualize(6000,9000).save("target/mytree.png");
+        List entries = roadEdgeIndex.search(new Point(-122.732318937778, 47.8899192810059), 200);
+
+//        OfflineMapMatching offlineMapMatching = new OfflineMapMatching();
 //        List<SequenceState<RoadPosition, GpsMeasurement, RoadPath>> result
 //                = offlineMapMatching.testMapMatching();
 //        System.out.println(result.size());

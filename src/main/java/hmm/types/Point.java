@@ -22,12 +22,12 @@ package hmm.types;
  */
 public class Point {
 
-    final public double longitude;  // longitude
-    final public double latitude;  // latitude
+    final public double longitude;
+    final public double latitude;
 
-    public Point(double x, double y) {
-        this.longitude = x;
-        this.latitude = y;
+    public Point(double longitude, double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     @Override
