@@ -22,6 +22,7 @@ public class GpsData {
                 String temp[] = s.split("\\t");
                 Point point = new Point(Double.parseDouble(temp[3]), Double.parseDouble(temp[2]));
                 GpsMeasurement gpsMeasurement = new GpsMeasurement(seconds(temp[1]), point);
+                // TODO filter out points within 2σ of the previous point
                 gpsMeasurements.add(gpsMeasurement);
             }
         }
