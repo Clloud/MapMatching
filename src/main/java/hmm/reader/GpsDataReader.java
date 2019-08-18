@@ -1,17 +1,15 @@
-package hmm.utils;
+package hmm.reader;
 
 import hmm.types.GpsMeasurement;
 import hmm.types.Point;
 import java.io.*;
 import java.util.*;
 
-public class GpsData {
+public class GpsDataReader {
 
     private final static String filePath = "E:\\Files\\Project\\2019 Summer Research\\MapMatching\\data";
 
-    private final static String fileName = "gps_data.txt";
-
-    public static List<GpsMeasurement> getData() {
+    public static List<GpsMeasurement> getData(String fileName) {
         File file = new File(filePath, fileName);
         List<GpsMeasurement> gpsMeasurements = new ArrayList<>();
 

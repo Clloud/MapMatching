@@ -1,16 +1,15 @@
-package hmm.utils;
+package hmm.reader;
 
 import hmm.types.Point;
 import hmm.types.RoadEdge;
 import java.io.*;
 import java.util.*;
 
-public class RoadNetwork {
+public class RoadDataReader {
+
     private final static String filePath = "E:\\Files\\Project\\2019 Summer Research\\MapMatching\\data";
 
-    private final static String fileName = "road_network.txt";
-
-    public static List<RoadEdge> getData() {
+    public static List<RoadEdge> getData(String fileName) {
         File file = new File(filePath, fileName);
         List<RoadEdge> roadEdges = new ArrayList<>();
 

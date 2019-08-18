@@ -32,7 +32,8 @@ public class RoadEdgeIndex {
     /*
      * Returns geometry entries within the given radius [m].
      */
-    public List<Entry<RoadEdge, Geometry>> search(Point point, double radius) {
+    public List<Entry<RoadEdge, Geometry>> search(GpsMeasurement gpsMeasurement, double radius) {
+        Point point = gpsMeasurement.position;
         final double deltaLon = distanceToLongitude(point, radius);
         final double deltaLat = distanceToLatitude(radius);
 

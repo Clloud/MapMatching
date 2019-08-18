@@ -3,9 +3,7 @@ package hmm.utils;
 import com.bmw.hmm.SequenceState;
 import com.bmw.hmm.Transition;
 import com.bmw.hmm.ViterbiAlgorithm;
-import hmm.types.GpsMeasurement;
-import hmm.types.RoadPath;
-import hmm.types.RoadPosition;
+import hmm.types.*;
 
 import java.util.*;
 
@@ -18,17 +16,26 @@ public class OfflineMapMatching {
 
     private List<GpsMeasurement> gpsMeasurements;
 
+    private RoadEdgeIndex roadEdgeIndex = new RoadEdgeIndex();
+
+    private RoadNetwork roadNetwork;
+
+    private double searchRadius;
+
     private final static Map<GpsMeasurement, Collection<RoadPosition>> candidateMap =
             new HashMap<>();
 
     private final static Map<Transition<RoadPosition>, Double> routeLengths = new HashMap<>();
 
-    public OfflineMapMatching() {
-        GpsMeasurement gps1 = new GpsMeasurement(seconds(0), 10, 10);
-        GpsMeasurement gps2 = new GpsMeasurement(seconds(1), 30, 20);
-        GpsMeasurement gps3 = new GpsMeasurement(seconds(2), 30, 40);
-        GpsMeasurement gps4 = new GpsMeasurement(seconds(3), 10, 70);
-        gpsMeasurements = Arrays.asList(gps1, gps2, gps3, gps4);
+    public OfflineMapMatching(List<GpsMeasurement> gpsMeasurements,
+                              List<RoadEdge> roadEdges) {
+        this.gpsMeasurements = gpsMeasurements;
+        for (RoadEdge roadEdge : roadEdges) {
+            this.roadEdgeIndex.add(roadEdge);
+        }
+        this.searchRadius = 50;
+        this.roadNetwork = new RoadNetwork(roadEdges);
+//        roadEdgeIndex.tree.visualize(600,600).save("target/mytree.png");
 
         RoadPosition rp11 = new RoadPosition(1, 1.0 / 5.0, 20.0, 10.0);
         RoadPosition rp12 = new RoadPosition(2, 1.0 / 5.0, 60.0, 10.0);
@@ -40,10 +47,10 @@ public class OfflineMapMatching {
         RoadPosition rp41 = new RoadPosition(4, 2.0 / 3.0, 20.0, 70.0);
         RoadPosition rp42 = new RoadPosition(5, 2.0 / 3.0, 60.0, 70.0);
 
-        candidateMap.put(gps1, Arrays.asList(rp11, rp12));
-        candidateMap.put(gps2, Arrays.asList(rp21, rp22));
-        candidateMap.put(gps3, Arrays.asList(rp31, rp32, rp33));
-        candidateMap.put(gps4, Arrays.asList(rp41, rp42));
+        candidateMap.put(gpsMeasurements.get(0), Arrays.asList(rp11, rp12));
+        candidateMap.put(gpsMeasurements.get(1), Arrays.asList(rp21, rp22));
+        candidateMap.put(gpsMeasurements.get(2), Arrays.asList(rp31, rp32, rp33));
+        candidateMap.put(gpsMeasurements.get(3), Arrays.asList(rp41, rp42));
 
         addRouteLength(rp11, rp21, 10.0);
         addRouteLength(rp11, rp22, 110.0);
@@ -65,12 +72,6 @@ public class OfflineMapMatching {
         addRouteLength(rp33, rp42, 30.0);
     }
 
-    private static Date seconds(int seconds) {
-        Calendar c = new GregorianCalendar(2014, 1, 1);
-        c.add(Calendar.SECOND, seconds);
-        return c.getTime();
-    }
-
     private static void addRouteLength(RoadPosition from, RoadPosition to, double routeLength) {
         routeLengths.put(new Transition<RoadPosition>(from, to), routeLength);
     }
@@ -79,7 +80,17 @@ public class OfflineMapMatching {
      * For real map matching applications, candidates would be computed using a radius query.
      */
     private Collection<RoadPosition> computeCandidates(GpsMeasurement gpsMeasurement) {
+        Collection entries = roadEdgeIndex.search(gpsMeasurement, searchRadius);
+        // TODO
         return candidateMap.get(gpsMeasurement);
+    }
+
+    /*
+     * Returns the shortest route length between two road positions.
+     */
+    private double computeRouteLength(RoadPosition from, RoadPosition to) {
+        // TODO 计算道路上两点之间最短的路径长度
+        return routeLengths.get(new Transition<>(from, to));
     }
 
     private void computeEmissionProbabilities(
@@ -106,7 +117,7 @@ public class OfflineMapMatching {
                 // For real map matching applications, route lengths and road paths would be
                 // computed using a router. The most efficient way is to use a single-source
                 // multi-target router.
-                final double routeLength = routeLengths.get(new Transition<>(from, to));
+                final double routeLength = computeRouteLength(from, to);
                 timeStep.addRoadPath(from, to, new RoadPath(from, to));
 
                 final double transitionLogProbability = hmmProbabilities.transitionLogProbability(
@@ -116,7 +127,7 @@ public class OfflineMapMatching {
         }
     }
 
-    public List<SequenceState<RoadPosition, GpsMeasurement, RoadPath>> testMapMatching() {
+    public List<SequenceState<RoadPosition, GpsMeasurement, RoadPath>> run() {
         ViterbiAlgorithm<RoadPosition, GpsMeasurement, RoadPath> viterbi =
                 new ViterbiAlgorithm<>();
         TimeStep<RoadPosition, GpsMeasurement, RoadPath> prevTimeStep = null;
