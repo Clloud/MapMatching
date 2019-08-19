@@ -80,8 +80,7 @@ public class OfflineMapMatching {
      * For real map matching applications, candidates would be computed using a radius query.
      */
     private Collection<RoadPosition> computeCandidates(GpsMeasurement gpsMeasurement) {
-        Collection entries = roadEdgeIndex.search(gpsMeasurement, searchRadius);
-        // TODO
+        Collection result = roadEdgeIndex.search(gpsMeasurement, searchRadius);
         return candidateMap.get(gpsMeasurement);
     }
 

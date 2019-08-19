@@ -46,45 +46,45 @@ public class Helper {
     }
 
     /*
-     *  Returns the great circle distance [m] from GPS point p1 to line determined by
-     *  GPS point p2 and GPS point p3.
+     *  Returns the shortest great circle distance [m] from GPS point p1 to line segment
+     *  determined by GPS point p2 and GPS point p3.
      */
     public static double computeDistance(Point p1, Point p2, Point p3) {
-//        // great circle distance
-//        double a = computeDistance(p2, p3);
-//        double b = computeDistance(p1, p2);
-//        double c = computeDistance(p1, p3);
-//        double cos_alpha = (a * a + b * b - c * c) / (2 * a * b);
-//        double cos_beta = (a * a + c * c - b * b) / (2 * a * c);
-//        if (cos_alpha <= 0) {
-//            return b;
-//        }
-//        if (cos_beta <= 0) {
-//            return c;
-//        }
-//        return (Math.sqrt((a + b + c) * (a + b - c) * (a + c - b) * (b + c - a)) / (2 * a));
-
-        // line distance
-        double d_x = p1.latitude;
-        double d_y = p2.longitude;
-        double point1_x = p2.latitude;
-        double point1_y = p2.longitude;
-        double point2_x = p3.latitude;
-        double point2_y = p3.longitude;
-        double cross = (point2_x - point1_x) * (d_x - point1_x) + (point2_y - point1_y) * (d_y - point1_y);
-        double dist2 = Math.pow((point2_x - point1_x), 2) + Math.pow((point2_y - point1_y), 2);
-
-        if (cross <= 0) {
-            return Math.sqrt(Math.pow((d_x - point1_x), 2) + Math.pow((d_y - point1_y), 2));
-        }
-
-        if (cross >= dist2) {
-            return Math.sqrt(Math.pow((d_x - point2_x), 2) + Math.pow((d_y - point2_y), 2));
-        }
-        double r = cross / dist2;
-        double p_x = point1_x + (point2_x - point1_x) * r;
-        double p_y = point1_y + (point2_y - point1_y) * r;
-        return Math.sqrt(Math.pow((d_x - p_x), 2) + Math.pow((d_y - p_y), 2));
+        double a = computeDistance(p2, p3);
+        double b = computeDistance(p1, p2);
+        double c = computeDistance(p1, p3);
+        double cosAlpha = (a * a + b * b - c * c) / (2 * a * b);
+        double cosBeta = (a * a + c * c - b * b) / (2 * a * c);
+        if (cosAlpha <= 0) return b;
+        if (cosBeta <= 0) return c;
+        return (Math.sqrt((a + b + c) * (a + b - c) * (a + c - b) * (b + c - a)) / (2 * a));
     }
 
+    /*
+     * Returns the foot point p to point p1 on the line segment determined by point p2 and p3.
+     */
+    public static Point findFootPoint(Point p1, Point p2, Point p3) {
+        double x1 = p1.longitude, y1 = p1.latitude;
+        double x2 = p2.longitude, y2 = p2.latitude;
+        double x3 = p3.longitude, y3 = p3.latitude;
+        if (y2 == y3) return new Point(x1, y2);
+        if (x2 == x3) return new Point(x2, y1);
+        double k = (y3 - y2) / (x3 - x2);
+        double x = (x1 + k * k * x2 + k * (y1 - y2)) / (k * k + 1);
+        double y = k * (x - x2) + y2;
+        return new Point(x, y);
+    }
+
+    /*
+     * Check if the foot point to point p1 is on the line segment determined by point p2 and p3.
+     */
+    public static Boolean hasFootPoint(Point p1, Point p2, Point p3) {
+        double a = computeDistance(p2, p3);
+        double b = computeDistance(p1, p2);
+        double c = computeDistance(p1, p3);
+        double cos_alpha = Math.round((a * a + b * b - c * c) / (2 * a * b) * 10e15d) / 10e15d;
+        double cos_beta = Math.round((a * a + c * c - b * b) / (2 * a * c) * 10e15d) / 10e15d;
+        if (cos_alpha >= 0 && cos_beta >= 0) return true;
+        return false;
+    }
 }

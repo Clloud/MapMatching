@@ -1,5 +1,6 @@
 package hmm.types;
 
+import java.util.ArrayList;
 import java.util.List;
 import static hmm.utils.Helper.computeDistance;
 
@@ -17,6 +18,11 @@ public class RoadEdge {
 
     public double roadLength;   // [m]
 
+    /**
+     * roadLengthArr[i] records the road length from the begining to the (i-1)th line segment
+     */
+    public List<Double> roadLengthArr = new ArrayList();
+
     public RoadEdge(long edgeId, long fromNodeId, long toNodeId, boolean twoWay, List<Point> line) {
         this.edgeId = edgeId;
         this.fromNodeId = fromNodeId;
@@ -28,8 +34,10 @@ public class RoadEdge {
 
     private double computeRoadLength(List<Point> line) {
         double sum = 0;
+        roadLengthArr.add(sum);
         for (int i = 0; i < line.size() - 1; i++) {
             sum += computeDistance(line.get(i), line.get(i+1));
+            roadLengthArr.add(sum);
         }
         return sum;
     }
