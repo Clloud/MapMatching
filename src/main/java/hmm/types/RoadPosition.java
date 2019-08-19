@@ -30,6 +30,11 @@ public class RoadPosition {
     public final long edgeId;
 
     /**
+     * Line segment index on the edge.
+     */
+    public int lineIndex = 0;
+
+    /**
      * Position on the edge from beginning as a number in the interval [0,1].
      */
     public final double fraction;
@@ -48,6 +53,16 @@ public class RoadPosition {
 
     public RoadPosition(long edgeId, double fraction, double x, double y) {
         this(edgeId, fraction, new Point(x, y));
+    }
+
+    public RoadPosition(long edgeId, int lineIndex, double fraction, Point position) {
+        this(edgeId, fraction, position);
+        this.lineIndex = lineIndex;
+    }
+
+    public RoadPosition(long edgeId, int lineIndex, double fraction, double x, double y) {
+        this(edgeId, fraction, x, y);
+        this.lineIndex = lineIndex;
     }
 
     @Override

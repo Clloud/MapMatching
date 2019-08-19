@@ -41,9 +41,9 @@ public class OfflineMapMatching {
         RoadPosition rp12 = new RoadPosition(2, 1.0 / 5.0, 60.0, 10.0);
         RoadPosition rp21 = new RoadPosition(1, 2.0 / 5.0, 20.0, 20.0);
         RoadPosition rp22 = new RoadPosition(2, 2.0 / 5.0, 60.0, 20.0);
-        RoadPosition rp31 = new RoadPosition(1, 5.0 / 6.0, 20.0, 40.0);
+        RoadPosition rp31 = new RoadPosition(1, 4.0 / 5.0, 20.0, 40.0);
         RoadPosition rp32 = new RoadPosition(3, 1.0 / 4.0, 30.0, 50.0);
-        RoadPosition rp33 = new RoadPosition(2, 5.0 / 6.0, 60.0, 40.0);
+        RoadPosition rp33 = new RoadPosition(2, 4.0 / 5.0, 60.0, 40.0);
         RoadPosition rp41 = new RoadPosition(4, 2.0 / 3.0, 20.0, 70.0);
         RoadPosition rp42 = new RoadPosition(5, 2.0 / 3.0, 60.0, 70.0);
 
@@ -80,8 +80,7 @@ public class OfflineMapMatching {
      * For real map matching applications, candidates would be computed using a radius query.
      */
     private Collection<RoadPosition> computeCandidates(GpsMeasurement gpsMeasurement) {
-        Collection entries = roadEdgeIndex.search(gpsMeasurement, searchRadius);
-        // TODO
+        Collection result = roadEdgeIndex.search(gpsMeasurement, searchRadius);
         return candidateMap.get(gpsMeasurement);
     }
 
