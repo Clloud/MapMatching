@@ -41,9 +41,9 @@ public class OfflineMapMatching {
         RoadPosition rp12 = new RoadPosition(2, 1.0 / 5.0, 60.0, 10.0);
         RoadPosition rp21 = new RoadPosition(1, 2.0 / 5.0, 20.0, 20.0);
         RoadPosition rp22 = new RoadPosition(2, 2.0 / 5.0, 60.0, 20.0);
-        RoadPosition rp31 = new RoadPosition(1, 5.0 / 6.0, 20.0, 40.0);
-        RoadPosition rp32 = new RoadPosition(3, 1.0 / 4.0, 30.0, 50.0);
-        RoadPosition rp33 = new RoadPosition(2, 5.0 / 6.0, 60.0, 40.0);
+        RoadPosition rp31 = new RoadPosition(1, 4.0 / 5.0, 20.0, 40.0);
+        RoadPosition rp32 = new RoadPosition(2, 4.0 / 5.0, 60.0, 40.0);
+        RoadPosition rp33 = new RoadPosition(3, 1.0 / 4.0, 30.0, 50.0);
         RoadPosition rp41 = new RoadPosition(4, 2.0 / 3.0, 20.0, 70.0);
         RoadPosition rp42 = new RoadPosition(5, 2.0 / 3.0, 60.0, 70.0);
 
@@ -89,8 +89,9 @@ public class OfflineMapMatching {
      * Returns the shortest route length between two road positions.
      */
     private double computeRouteLength(RoadPosition from, RoadPosition to) {
-        // TODO 计算道路上两点之间最短的路径长度
-        return routeLengths.get(new Transition<>(from, to));
+        // 计算道路上两点之间最短的路径长度
+        return roadNetwork.computePathDistance(from, to);
+        //return routeLengths.get(new Transition<>(from, to));
     }
 
     private void computeEmissionProbabilities(
