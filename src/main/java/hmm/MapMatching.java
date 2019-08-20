@@ -9,8 +9,8 @@ import java.util.List;
 public class MapMatching {
     public static void main(String args[]) {
         // prepare data
-        List gpsMeasurements = GpsDataReader.getData("test_gps_data.txt");
-        List roadEdges = RoadDataReader.getData("test_road_data.txt");
+        List gpsMeasurements = GpsDataReader.getData("gps_data.txt");
+        List roadEdges = RoadDataReader.getData("road_network.txt");
 
         // map matching
         OfflineMapMatching offlineMapMatching = new OfflineMapMatching(gpsMeasurements, roadEdges);

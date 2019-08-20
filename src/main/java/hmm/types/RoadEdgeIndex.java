@@ -88,6 +88,7 @@ public class RoadEdgeIndex {
                     double d = computeDistance(candidatePoint, point2);
                     fraction = (roadEdge.roadLengthArr.get(candidateIndex) + d)
                             / roadEdge.roadLength;
+                    int a = 1;
                 }
                 // find valid candidate point
                 if (candidatePoint.longitude != 999) {

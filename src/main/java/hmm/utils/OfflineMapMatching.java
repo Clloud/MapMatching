@@ -25,7 +25,7 @@ public class OfflineMapMatching {
         for (RoadEdge roadEdge : roadEdges) {
             this.roadEdgeIndex.add(roadEdge);
         }
-        this.searchRadius = 50;
+        this.searchRadius = 200;
         this.roadNetwork = new RoadNetwork(roadEdges);
 //        roadEdgeIndex.tree.visualize(600,600).save("target/mytree.png");
     }
