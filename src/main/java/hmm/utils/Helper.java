@@ -64,19 +64,31 @@ public class Helper {
      * Returns the foot point p to point p1 on the line segment determined by point p2 and p3.
      */
     public static Point findFootPoint(Point p1, Point p2, Point p3) {
-        double x1 = p1.longitude, y1 = p1.latitude;
+        double a = computeDistance(p2, p3);
+        double b = computeDistance(p1, p2);
+        double h = computeDistance(p1, p2, p3);
+        double t = Math.sqrt(b * b - h * h);
+
         double x2 = p2.longitude, y2 = p2.latitude;
         double x3 = p3.longitude, y3 = p3.latitude;
-        if (y2 == y3) return new Point(x1, y2);
-        if (x2 == x3) return new Point(x2, y1);
-        double k = (y3 - y2) / (x3 - x2);
-        double t = (x3 - x2) / (y3 - y2);
-        double x = (x1 * t + y1 + k * x2 - y2) / (k + t);
-        double y = k * (x - x2) + y2;
 
-        if (x < Math.min(x2, x3) || x > Math.max(x2, x3))
-            System.out.println("Error!" + computeDistance(p2, p3));
+        double x = x2 + (x3 - x2) / a * t;
+        double y = y2 + (y3 - y2) / a * t;
         return new Point(x, y);
+
+//        double x1 = p1.longitude, y1 = p1.latitude;
+//        double x2 = p2.longitude, y2 = p2.latitude;
+//        double x3 = p3.longitude, y3 = p3.latitude;
+//        if (y2 == y3) return new Point(x1, y2);
+//        if (x2 == x3) return new Point(x2, y1);
+//        double k = (y3 - y2) / (x3 - x2);
+//        double t = (x3 - x2) / (y3 - y2);
+//        double x = (x1 * t + y1 + k * x2 - y2) / (k + t);
+//        double y = k * (x - x2) + y2;
+//
+//        if (x < Math.min(x2, x3) || x > Math.max(x2, x3))
+//            System.out.println("Error!" + computeDistance(p2, p3));
+//        return new Point(x, y);
     }
 
     /*
