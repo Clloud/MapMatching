@@ -1,10 +1,11 @@
 package hmm.types;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import static hmm.utils.Helper.computeDistance;
 
-public class RoadEdge {
+public class RoadEdge implements Serializable {
 
     public final long edgeId;
 

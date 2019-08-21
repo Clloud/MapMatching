@@ -1,9 +1,10 @@
 package hmm.types;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class RoadNetwork {
+public class RoadNetwork implements Serializable {
     private int vertexNum;
     private int edgeNum;
     private Set<Long> roadVertex = new LinkedHashSet<>();
@@ -13,18 +14,18 @@ public class RoadNetwork {
     private List<RoadEdge> roadEdgesCopy;
     private double INF = Double.POSITIVE_INFINITY;
 
-    public static class Node {
+    public static class Node implements Serializable {
         long adj;
         double weight;
         Node next;
     }
 
-    public static class Vertex {
+    public static class Vertex implements Serializable {
         long data;
         Node firstEdge;
     }
 
-    public static class Edge {
+    public static class Edge implements Serializable {
         long start;
         long end;
         double weight;

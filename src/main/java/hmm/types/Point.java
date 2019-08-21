@@ -17,10 +17,12 @@
 
 package hmm.types;
 
+import java.io.Serializable;
+
 /**
  * Represents a spatial point.
  */
-public class Point {
+public class Point implements Serializable {
 
     final public double longitude;
     final public double latitude;
