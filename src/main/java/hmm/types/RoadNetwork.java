@@ -80,8 +80,12 @@ public class RoadNetwork implements Serializable {
 
             // find node u's neighbours
             List<Node> neighbours = new ArrayList<>();
-            for (Long t : edges.get(u.nodeId).keySet())
+            // handle NullPointerException
+            HashMap<Long, Edge> e = edges.get(u.nodeId);
+            if (e == null) break;
+            for (Long t : e.keySet())
                 neighbours.add(map.get(t));
+
             // refresh the cost
             for(Node v : neighbours) {
                 double newCost = u.cost + getWeight(u, v);
@@ -92,6 +96,7 @@ public class RoadNetwork implements Serializable {
                     pq.add(v);
                 }
             }
+
         }
         return map.get(toNodeId).cost;
     }
