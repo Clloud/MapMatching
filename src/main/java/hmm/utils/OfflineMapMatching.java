@@ -16,7 +16,7 @@ public class OfflineMapMatching {
 
     private RoadEdgeIndex roadEdgeIndex = new RoadEdgeIndex();
 
-    ToFille RNFile=new ToFille();
+    ToFille RNFile = new ToFille();
 
     private RoadNetwork roadNetwork;
 
@@ -29,12 +29,8 @@ public class OfflineMapMatching {
             this.roadEdgeIndex.add(roadEdge);
         }
         this.searchRadius = 200;
-        this.roadNetwork=RNFile.testReader();
-
-        //Cache cache=new Cache();
-        //this.roadNetwork=(RoadNetwork) cache.getValue(roadEdges);
-
-        //this.roadNetwork = new RoadNetwork(roadEdges);
+//        this.roadNetwork = RNFile.testReader();
+        this.roadNetwork = new RoadNetwork(roadEdges);
 //        roadEdgeIndex.tree.visualize(600,600).save("target/mytree.png");
     }
 

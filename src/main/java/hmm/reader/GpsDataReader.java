@@ -8,7 +8,7 @@ import java.util.*;
 
 public class GpsDataReader {
 
-    private final static String filePath = "D:/HMM/data";
+    private final static String filePath = "E:\\Files\\Project\\2019 Summer Research\\MapMatching\\data";
 
     public static List<GpsMeasurement> getData(String fileName) {
         File file = new File(filePath, fileName);
