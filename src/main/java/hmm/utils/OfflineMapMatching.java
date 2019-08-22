@@ -28,7 +28,7 @@ public class OfflineMapMatching {
         for (RoadEdge roadEdge : roadEdges) {
             this.roadEdgeIndex.add(roadEdge);
         }
-        this.searchRadius = 200;
+        this.searchRadius = 25;
 //        this.roadNetwork = RNFile.testReader();
         this.roadNetwork = new RoadNetwork(roadEdges);
 //        roadEdgeIndex.tree.visualize(600,600).save("target/mytree.png");

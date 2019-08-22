@@ -9,22 +9,22 @@ public class Helper {
      */
     public static double computeDistance(Point p1, Point p2) {
         // great circle distance
-//        double EARTH_RADIUS = 6378.137;
-//        double radLat1 = rad(p1.latitude);
-//        double radLat2 = rad(p2.latitude);
-//        double a = radLat1 - radLat2;
-//        double b = rad(p1.longitude) - rad(p2.longitude);
-//        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
-//                + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-//
-//        s = s * EARTH_RADIUS * 1000;
-//        s = Math.round(s * 1000d) / 1000d;
-//        return s;
+        double EARTH_RADIUS = 6378.137;
+        double radLat1 = rad(p1.latitude);
+        double radLat2 = rad(p2.latitude);
+        double a = radLat1 - radLat2;
+        double b = rad(p1.longitude) - rad(p2.longitude);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+                + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+
+        s = s * EARTH_RADIUS * 1000;
+        s = Math.round(s * 1000d) / 1000d;
+        return s;
 
 //        // line distance
-        double deltaX = p1.longitude - p2.longitude;
-        double deltaY = p1.latitude - p2.latitude;
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+//        double deltaX = p1.longitude - p2.longitude;
+//        double deltaY = p1.latitude - p2.latitude;
+//        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
     public static double rad(double d) {
@@ -34,15 +34,15 @@ public class Helper {
     /* convert distance difference [m] to longitude difference [°] */
     public static double distanceToLongitude(Point point, double d) {
         // great circle distance
-//        return d / (Math.cos(rad(point.latitude)) * 111318.078);
-        return d;
+        return d / (Math.cos(rad(point.latitude)) * 111318.078);
+//        return d;
     }
 
     /* convert distance difference [m] to latitude difference [°] */
     public static double distanceToLatitude(double d) {
         // great circle distance
-//        return d / 111319.5;
-        return d;
+        return d / 111319.5;
+//        return d;
     }
 
     /*
