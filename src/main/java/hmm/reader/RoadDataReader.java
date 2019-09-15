@@ -23,7 +23,7 @@ public class RoadDataReader {
                         Long.parseLong(t[1]),
                         Long.parseLong(t[2]),
                         t[3].equals("1"),
-                        line(t[6])
+                        addLine(t[6])
                 );
                 roadEdges.add(roadEdge);
             }
@@ -35,7 +35,7 @@ public class RoadDataReader {
         return roadEdges;
     }
 
-    private static List<Point> line(String lineString) {
+    private static List<Point> addLine(String lineString) {
         List<Point> result = new ArrayList<>();
         lineString = lineString.substring(11, lineString.length() - 1);
         String t[] = lineString.split(",");

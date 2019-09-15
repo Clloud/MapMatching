@@ -3,6 +3,8 @@ package hmm;
 import com.bmw.hmm.SequenceState;
 import hmm.reader.GpsDataReader;
 import hmm.reader.RoadDataReader;
+import hmm.reader.osmToWay;
+import hmm.types.RoadEdge;
 import hmm.types.RoadPosition;
 import hmm.utils.OfflineMapMatching;
 
@@ -14,7 +16,9 @@ public class MapMatching {
     public static void main(String args[]) throws IOException {
         // prepare data
         List gpsMeasurements = GpsDataReader.getData("gps_data.txt").subList(0, 60);
-        List roadEdges = RoadDataReader.getData("road_network.txt");
+//        List roadEdges = RoadDataReader.getData("road_network.txt");
+        // 加载北京的地图数据
+        List<RoadEdge> roadEdges = new osmToWay("beijing-latest.osm").getRoadEdges();
 
         // map matching
         OfflineMapMatching offlineMapMatching = new OfflineMapMatching(gpsMeasurements, roadEdges);
