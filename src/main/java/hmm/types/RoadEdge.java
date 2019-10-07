@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static hmm.utils.Helper.computeDistance;
 
-public class RoadEdge implements Serializable {
+public class RoadEdge {
 
     public final long edgeId;
 

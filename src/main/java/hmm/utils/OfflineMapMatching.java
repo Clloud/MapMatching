@@ -2,9 +2,10 @@ package hmm.utils;
 
 import com.bmw.hmm.SequenceState;
 import com.bmw.hmm.ViterbiAlgorithm;
-import hmm.storage.ToFille;
 import hmm.types.*;
+
 import java.util.*;
+
 import static hmm.utils.Helper.computeDistance;
 
 
@@ -16,21 +17,19 @@ public class OfflineMapMatching {
 
     private RoadEdgeIndex roadEdgeIndex = new RoadEdgeIndex();
 
-    ToFille RNFile = new ToFille();
-
     private RoadNetwork roadNetwork;
 
     private double searchRadius;
 
     public OfflineMapMatching(List<GpsMeasurement> gpsMeasurements,
-                              List<RoadEdge> roadEdges) {
+                              List<RoadEdge> roadEdges, RoadNetwork roadNetwork) {
         this.gpsMeasurements = gpsMeasurements;
         for (RoadEdge roadEdge : roadEdges) {
             this.roadEdgeIndex.add(roadEdge);
         }
-        this.searchRadius = 25;
+        this.searchRadius = 30;
 //        this.roadNetwork = RNFile.testReader();
-        this.roadNetwork = new RoadNetwork(roadEdges);
+        this.roadNetwork = roadNetwork;
 //        roadEdgeIndex.tree.visualize(600,600).save("target/mytree.png");
     }
 

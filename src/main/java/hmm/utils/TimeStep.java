@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 /**
- * Contains everything the hmm-lib needs to process a new time step including emisson and
+ * Contains everything the hmm-lib needs to process a new time step including emission and
  * observation probabilities.
  *
  * @param <S> road position type, which corresponds to the HMM state.

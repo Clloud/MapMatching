@@ -5,9 +5,10 @@ import java.util.*;
 
 public class RoadNetwork implements Serializable {
 
-    private HashMap<Long, RoadEdge> roadEdges = new HashMap<>();
-    private Set<Long> nodes = new HashSet<>();
+    public Set<Long> nodes = new HashSet<>();
     private HashMap<Long, HashMap<Long, Edge>> edges = new HashMap<>();
+    public HashMap<Long, Point> roadNodes = new HashMap<>();
+    public HashMap<Long, RoadEdge> roadEdges = new HashMap<>();
 
     public class Node {
         public final long nodeId;
@@ -37,14 +38,16 @@ public class RoadNetwork implements Serializable {
     }
 
     /**
-      * Construct the road network through roadEdges.
-      */
+     * Construct the road network through roadEdges.
+     */
     public RoadNetwork(List<RoadEdge> roadEdges) {
         for (RoadEdge re : roadEdges) {
             this.roadEdges.put(re.edgeId, re);
             // add node
             nodes.add(re.fromNodeId);
+            roadNodes.put(re.fromNodeId, re.line.get(0));
             nodes.add(re.toNodeId);
+            roadNodes.put(re.toNodeId, re.line.get(re.line.size() - 1));
             // add edge
             Edge edge = new Edge(re.edgeId, re.roadLength);
             addEdge(re.fromNodeId, re.toNodeId, edge);
@@ -87,7 +90,7 @@ public class RoadNetwork implements Serializable {
                 neighbours.add(map.get(t));
 
             // refresh the cost
-            for(Node v : neighbours) {
+            for (Node v : neighbours) {
                 double newCost = u.cost + getWeight(u, v);
                 if (newCost < v.cost) {
                     pq.remove(v);

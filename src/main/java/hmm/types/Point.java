@@ -22,7 +22,7 @@ import java.io.Serializable;
 /**
  * Represents a spatial point.
  */
-public class Point implements Serializable {
+public class Point {
 
     final public double longitude;
     final public double latitude;

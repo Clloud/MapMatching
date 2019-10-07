@@ -7,7 +7,7 @@ import java.util.*;
 
 public class RoadDataReader {
 
-    private final static String filePath = "E:\\Files\\Project\\2019 Summer Research\\MapMatching\\data";
+    private final static String filePath = "D:/HMM/data";
 
     public static List<RoadEdge> getData(String fileName) {
         File file = new File(filePath, fileName);
